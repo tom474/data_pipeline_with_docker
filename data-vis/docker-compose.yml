@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  datavis:
+    container_name: datavis
+    hostname: datavis
+    build:
+      context: .
+    environment:
+      CASSANDRA_HOST: cassandradb
+      CASSANDRA_KEYSPACE: kafkapipeline
+      WEATHER_TABLE: weatherreport
+      FAKER_TABLE: fakerdata
+      TMDB_TABLE: movies
+    ports:
+        - 8888:8888
+    volumes:
+      - $PWD/data-vis/python:/usr/app
+networks:
+  default:
+    external:
+      name: cassandra-network

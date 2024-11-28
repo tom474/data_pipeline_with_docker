@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  tmdb:
+    container_name: tmdb
+    build: .
+    environment:
+      KAFKA_BROKER_URL: broker:9092
+      TOPIC_NAME: tmdb
+      SLEEP_TIME: 1
+
+networks:
+  default:
+    external:
+      name: kafka-network
