@@ -9,9 +9,9 @@ This project implements a Dockerized data pipeline that integrates multiple big 
 - **Jupyter Notebook**: A robust environment for data analysis and visualization.
 
 The pipeline processes datasets from three APIs:
-1. **OpenWeatherMap API**: Streams real-time weather data for selected cities.
-2. **Faker API**: Generates synthetic data with customizable fields for testing and analysis.
-3. **The Movie Database (TMDB) API**: Collects movie-related metadata for comprehensive insights.
+- **OpenWeatherMap API**: Streams real-time weather data for selected cities.
+- **Faker API**: Generates synthetic data with customizable fields for testing and analysis.
+- **The Movie Database (TMDB) API**: Collects movie-related metadata for comprehensive insights.
 
 By integrating real-time and synthetic data sources, this project demonstrates the practical application of modern data engineering tools to handle, store, and visualize large datasets for actionable insights.
 
@@ -25,21 +25,21 @@ You need to apply for some APIs to use with this. The APIs might take days for a
 
 Note: After obtaining the OpenWeatherMap API keys, please update the files "owm-producer/openweathermap_service.cfg" accordingly.
 
-### 1. Create Docker Networks
+### Create Docker Networks
 ```bash
 $ docker network create kafka-network          # Create network for Kafka services.
 $ docker network create cassandra-network      # Create network for Cassandra services.
 $ docker network ls                            # Verify network creation.
 ```
 
-### 2. Starting Cassandra and Kafka
+### Starting Cassandra and Kafka
 ```bash
 $ docker-compose -f cassandra/docker-compose.yml up -d  # Start Cassandra.
 $ docker-compose -f kafka/docker-compose.yml up -d      # Start Kafka.
 $ docker ps -a                                          # Check running containers.
 ```
 
-### 3. Access Kafka UI Frontend
+### Access Kafka UI Frontend
 - **Open the Kafka UI:**
     - Navigate to http://localhost:9000 in your web browser.
     - Use the following credentials to log in:
@@ -53,25 +53,25 @@ $ docker ps -a                                          # Check running containe
         - **Cluster Zookeeper:** `zookeeper:2181`
     - Save the configuration to connect the cluster to the UI.
 
-### 4. Starting Cassandra Sinks
+### Starting Cassandra Sinks
 You have to manually go to CLI of the "kafka-connect" container and run the below comment to start the Cassandra sinks.
 ```bash
 ./start-and-wait.sh
 ```
 
-### 5. Starting Producers
+### Starting Producers
 ```bash
 $ docker-compose -f owm-producer/docker-compose.yml up -d   # Start OpenWeatherMap producer.
 $ docker-compose -f faker-producer/docker-compose.yml up -d # Start Faker producer.
 $ docker-compose -f tmdb-producer/docker-compose.yml up -d  # Start TMDB producer.
 ```
 
-### 6. Starting Consumers
+### Starting Consumers
 ```bash
 $ docker-compose -f consumers/docker-compose.yml up -d     # Start Kafka consumers.
 ```
 
-### 6. Querying Data in Cassandra
+### Querying Data in Cassandra
 First login into Cassandra's container with the following command or open a new CLI from Docker Desktop if you use that.
 ```bash
 $ docker exec -it cassandra bash                        # Access Cassandra container.
@@ -87,13 +87,13 @@ cqlsh:kafkapipeline> select * from fakerdata;          # Query data from fakerda
 cqlsh:kafkapipeline> select * from movies;             # Query data from movies table.
 ```
 
-### 6. Visualization
+### Visualization
 Run the following command then go to http://localhost:8888 and run the visualization notebook accordingly
 ```bash
 $ docker-compose -f data-vis/docker-compose.yml up -d  # Start Jupyter Notebook.
 ```
 
-### 7. Teardown
+### Teardown
 To stop all running kakfa cluster services:
 ```bash
 $ docker-compose -f data-vis/docker-compose.yml down           # Stop visualization
